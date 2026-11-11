@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite" thread-count="5" parallel="tests">
+
+    <test name="OpenCart Firefox Test Suite">
+        <parameter name="browser" value="firefox"></parameter>
+        <classes>
+            <class name="testcase.RegisterAccountTest">
+            </class>
+        </classes>
+    </test>
+
+    <test name="OpenCart Edge Test Suite">
+        <parameter name="browser" value="edge"></parameter>
+        <classes>
+            <class name="testcase.RegisterAccountTest">
+            </class>
+        </classes>
+    </test>
+</suite>
