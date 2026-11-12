@@ -8,7 +8,7 @@ import pageObjects.RegisterAccountPage;
 public class RegisterAccountTest extends BaseClass {
 
 
-    @Test
+    @Test(groups = {"Regression", "Master"})
     void registerAccountTest() {
         try {
             HomePage homePage = new HomePage(driver);

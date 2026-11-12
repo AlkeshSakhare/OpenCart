@@ -21,7 +21,7 @@ public class MyAccountPage extends BasePage {
     private By loginError = By.cssSelector(".alert-danger");
 
     public boolean isLoginSuccessful() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
         wait.until(ExpectedConditions.or(
                 ExpectedConditions.presenceOfElementLocated(lblMyAccount),
                 ExpectedConditions.visibilityOfElementLocated(loginError)));

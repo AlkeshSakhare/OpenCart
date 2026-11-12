@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
+    <listeners>
+        <listener class-name="utilities.ExtentReportManager"/>
+    </listeners>
     <test name="OpenCart Test Suite">
         <parameter name="browser" value="edge"></parameter>
-        <classes>
-            <class name="testcase.LoginTest">
-            </class>
-        </classes>
+        <parameter name="os" value="Windows"/>
+        <packages>
+            <package name="testcase"/>
+        </packages>
     </test>
 </suite>

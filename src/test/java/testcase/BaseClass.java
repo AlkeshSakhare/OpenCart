@@ -3,28 +3,35 @@ package testcase;
 import com.github.javafaker.Faker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 import java.util.Properties;
 
 public class BaseClass {
-    WebDriver driver;
+    static WebDriver driver;
     String url;
     Faker faker = new Faker();
     Logger log = null;
     Properties properties;
 
-    @Parameters({"browser"})
-    @BeforeClass
-    void setUp(String browser) {
+    @Parameters({"browser", "os"})
+    @BeforeClass(groups = {"Sanity", "Regression", "Master"})
+    void setUp(String browser, String os) {
         try {
             log = LogManager.getLogger(this.getClass());
             properties = new Properties();
@@ -37,8 +44,14 @@ public class BaseClass {
                 case "firefox":
                     driver = new FirefoxDriver();
                     break;
+                case "chrome":
+                    driver = new ChromeDriver();
+                    break;
+                case "ie":
+                    driver = new InternetExplorerDriver();
+                    break;
                 default:
-                    log.error("Please enter edge or firefox browser");
+                    log.error("Please enter edge, firefox, ie or chrome browser");
                     return;
             }
             log.info("Launching {} browser", browser);
@@ -52,9 +65,21 @@ public class BaseClass {
     }
 
     @Parameters({"browser"})
-    @AfterClass
+    @AfterClass(groups = {"Sanity", "Regression", "Master"})
     void tearDown(String browser) {
         log.info("Closing {} browser", browser);
         driver.quit();
+    }
+
+    public String captureScreen(String tname) {
+        String timeStamp = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
+        TakesScreenshot takesScreenshot = (TakesScreenshot) driver;
+        File sourceFile = takesScreenshot.getScreenshotAs(OutputType.FILE);
+        String targetFilePath = System.getProperty("user.dir") + "\\screenshots\\" + tname + "_" + timeStamp + ".png";
+        File targetFile = new File(targetFilePath);
+
+        sourceFile.renameTo(targetFile);
+
+        return targetFilePath;
     }
 }
