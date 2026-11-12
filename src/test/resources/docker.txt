@@ -1,0 +1,247 @@
+Docker Commands
+--------------------
+
+Basic Commands
+1.      docker version
+
+Displays the Docker version installed on the system.
+2.     docker -v
+
+Short form of docker version. It shows the Docker version.
+3.     docker info
+
+Provides detailed information about the Docker installation.
+4.    docker --help
+
+Displays general help information.
+Example: To get information about specific commands:
+docker images --help: Details about managing images.
+docker run --help: Details about running containers.
+5.    docker login
+
+Logs into a Docker registry, such as Docker Hub. Used for push or pull docker images from Docker Hub.
+Images Commands
+6.    docker images
+
+Lists all the Docker images present on the machine.
+7.     docker pull
+
+Pulls an image from a Docker registry. You can find Docker images here: https://hub.docker.com/search?q=&type=image
+Example: docker pull ubuntu
+8.    docker rmi
+
+Removes Docker images.
+docker images -q: Lists image IDs.
+docker rmi <image ID>: Deletes the specified image.
+After deletion, confirm with docker images.
+ Container Commands
+9.    docker ps & docker run
+
+docker ps: Lists running containers.
+docker run <image>: Creates a container from a specified image. If local image is not available then it will pull from Docker Hub automatically.
+Example: docker run ubuntu.
+Example: docker run -it ubuntu   //For interaction
+10.  docker start
+
+Starts a stopped container.
+Example: docker start <container id>.
+11.    docker stop
+
+Stops a running container.
+Example: docker stop <container id>.
+12.   docker rm
+
+Removes a container.
+Example: docker rm <container id or name>.
+
+System Commands
+12.   docker stats
+
+Provides resource usage statistics for running containers, such as CPU, memory, etc.
+13.   docker system df
+
+Displays disk usage related to Docker.
+14.  docker system prune
+
+Cleans up unused data, such as stopped containers.
+docker system prune -f: Forcefully removes all stopped containers.
+These commands form the basic toolkit for managing Docker containers and images, as well as maintaining the Docker environment.
+
+***********************************************************************************************************
+Basic Commands
+
+1)docker version
+2)docker -v
+3)docker info
+4)docker --help
+
+  docker --help
+   Example: Get information about images.....
+    docker images --help     --> Gives you details about how to use images command
+    docker run --help --> Gives you details about how to use run commands
+5)docker login
+
+Images Commands
+
+6)docker images    --> lists the images present in the machine
+7)docker pull   ---> pull the image from docker hub
+ docker pull ubuntu
+ docker images  --> list the image
+
+8)docker rmi
+ docker images -q   --> Gives you image ID
+ docker rmi <>   ----> Deletes image
+ docker images   ---> No Images
+
+
+Containers Commands
+
+9)docker ps  & : docker run
+
+ docker ps  ---> List the containers, Bo containers as of now.
+ docker run ubuntu ---> Locally not available ,Pulling image from Dockerhub.
+ docker ps --> Still not listed contaner, becoz we didi not created container so far....
+ docker run -it ubuntu   ---> inside ubuntu
+ docker ps ---> lists the container
+
+
+10) docker start
+ docker start <>
+
+11)docker stop
+ docker stop <>
+
+System Commands
+
+12) docker stats   --> gives details abount running containers, memory usage etc..
+13)docker system df
+14)docker system prune
+ docker system prune -f --> Rermoves all stopped contaniers
+
+***********************************************************************************************************
+
+Selenium Grid Setup with Docker Containers
+
+
+Pull Docker Images
+Pull Selenium-hub image using command
+
+docker pull selenium/hub
+
+Pull FireFox  image using command
+
+docker pull selenium/node-firefox
+
+Pull Chrome image using below command
+
+docker pull selenium/node-chrome
+
+
+
+Verify Images
+docker images
+
+
+
+Running Docker Containers by using below commands.
+
+docker network create grid
+
+ docker run -d -p 4442-4444:4442-4444 --net grid --name selenium-hub selenium/hub
+
+ docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub -e SE_EVENT_BUS_PUBLISH_PORT=4442 -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 selenium/node-chrome
+
+ docker run -d --net grid -e SE_EVENT_BUS_HOST=selenium-hub -e SE_EVENT_BUS_PUBLISH_PORT=4442 -e SE_EVENT_BUS_SUBSCRIBE_PORT=4443 selenium/node-firefox
+
+********************************************************************************************************
+Selenium Grid Setup with docker-compose.yaml file
+
+
+1) Create a file docker-compose.yaml with Required config
+
+docker-compose.yaml
+
+
+
+version: '3'
+
+
+
+services:
+
+  selenium-hub:
+
+    image: selenium/hub
+
+    ports:
+
+      - "4442-4444:4442-4444"
+
+    networks:
+
+      - grid
+
+
+
+  node-chrome:
+
+    image: selenium/node-chrome
+
+    environment:
+
+      - SE_EVENT_BUS_HOST=selenium-hub
+
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+
+    networks:
+
+      - grid
+
+
+
+  node-firefox:
+
+    image: selenium/node-firefox
+
+    environment:
+
+      - SE_EVENT_BUS_HOST=selenium-hub
+
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+
+    networks:
+
+      - grid
+
+
+
+
+
+networks:
+
+  grid:
+
+    driver: bridge
+
+
+
+2) Run docker-compose.yaml
+
+                        docker-compose up
+
+3) To check hub & nodes running state:
+
+                        http://localhost:4444/grid/console
+
+4) To increase number of nodes:
+
+                                    docker-compose scale chrome=3
+
+5) To stop the grid and cleanup the created containers, run
+
+                        docker-compose down
+
