@@ -1,7 +1,7 @@
 target/
 test-output/
 logs/
-report/
+reports/
 screenshots/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
