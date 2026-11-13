@@ -4,9 +4,9 @@
     <listeners>
         <listener class-name="utilities.ExtentReportManager"/>
     </listeners>
-    <test name="OpenCart firfox Test Suite">
+    <test name="OpenCart firefox Test Suite">
         <parameter name="browser" value="firefox"></parameter>
-        <parameter name="os" value="Windows"/>
+        <parameter name="os" value="linux"/>
         <classes>
             <class name="testcase.RegisterAccountTest">
             </class>
@@ -14,7 +14,7 @@
     </test>
     <test name="OpenCart Edge Test Suite">
         <parameter name="browser" value="edge"></parameter>
-        <parameter name="os" value="Windows"/>
+        <parameter name="os" value="linux"/>
         <classes>
             <class name="testcase.RegisterAccountTest">
             </class>
@@ -22,7 +22,7 @@
     </test>
     <test name="OpenCart Chrome Test Suite">
         <parameter name="browser" value="chrome"></parameter>
-        <parameter name="os" value="Windows"/>
+        <parameter name="os" value="linux"/>
         <classes>
             <class name="testcase.RegisterAccountTest">
             </class>
