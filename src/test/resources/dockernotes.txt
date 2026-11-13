@@ -1,0 +1,31 @@
+Docker - containerization
+------------------------------
+
+Basic Commands
+-----------------
+1)docker version
+2)docker -v
+3)docker info
+4)docker --help
+
+images commands
+-----------------
+docker images - show all available images (imagename,id,tag etc will be displayed)
+docker pull image_name - pull image image_name. e.g. docker pull ubuntu
+docuker rmi <image_id> - remove docker image by image_id
+
+
+
+container commands
+-------------------
+docker ps -- show all running container
+docker run <image_name> - build container
+docker start <container_id>  - run container
+docker stop <container_id>  - stop container
+docker rm <container_id>  - remove container (this can be done if container is not running)
+
+system commands
+----------------
+docker stats - show memeory used
+docker system df  - show available and running container
+docker system prune -f - remove all container
